@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImgFlip Meme Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎭 Meme Generator</h1>
+
+        <!-- Meme 템플릿 목록 -->
+        <div id="meme-list-section">
+            <h2>밈 템플릿을 선택하세요</h2>
+            <div id="loading">로딩 중...</div>
+            <div id="meme-grid"></div>
+        </div>
+
+        <!-- 선택한 Meme 편집 섹션 -->
+        <div id="edit-section" style="display: none;">
+            <h2>텍스트를 입력하세요</h2>
+            <div class="selected-meme">
+                <img id="selected-meme-img" src="" alt="Selected Meme">
+                <p id="selected-meme-name"></p>
+            </div>
+
+            <div class="input-group">
+                <label for="text0">상단 텍스트:</label>
+                <input type="text" id="text0" placeholder="상단 텍스트 입력">
+            </div>
+
+            <div class="input-group">
+                <label for="text1">하단 텍스트:</label>
+                <input type="text" id="text1" placeholder="하단 텍스트 입력">
+            </div>
+
+            <div class="input-group">
+                <label for="username">ImgFlip Username:</label>
+                <input type="text" id="username" placeholder="Username">
+            </div>
+
+            <div class="input-group">
+                <label for="password">ImgFlip Password:</label>
+                <input type="password" id="password" placeholder="Password">
+            </div>
+
+            <div class="button-group">
+                <button id="generate-btn">밈 생성하기</button>
+                <button id="back-btn">돌아가기</button>
+            </div>
+
+            <div id="generating" style="display: none;">밈 생성 중...</div>
+        </div>
+
+        <!-- 생성된 Meme 결과 -->
+        <div id="result-section" style="display: none;">
+            <h2>생성된 밈</h2>
+            <div id="result-container">
+                <img id="result-img" src="" alt="Generated Meme">
+            </div>
+            <div class="button-group">
+                <button id="download-btn">다운로드</button>
+                <button id="new-meme-btn">새로운 밈 만들기</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
