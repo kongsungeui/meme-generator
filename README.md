@@ -48,6 +48,30 @@ meme_generator/
 - **get_memes**: `https://api.imgflip.com/get_memes` - 밈 템플릿 목록 조회
 - **caption_image**: `https://api.imgflip.com/caption_image` - 밈 생성
 
+## 배포 (Cloudflare Pages)
+
+이 프로젝트는 Cloudflare Pages를 통해 자동 배포됩니다.
+
+### 설정 방법
+
+1. **Cloudflare 계정 준비**
+   - [Cloudflare](https://cloudflare.com/)에서 계정 생성
+   - Cloudflare Pages에서 프로젝트 생성
+
+2. **GitHub Secrets 설정**
+   - 저장소 Settings > Secrets and variables > Actions에서 다음 시크릿 추가:
+     - `CLOUDFLARE_API_TOKEN`: Cloudflare API 토큰 (Pages 배포 권한 필요)
+     - `CLOUDFLARE_ACCOUNT_ID`: Cloudflare 계정 ID
+
+3. **API 토큰 생성**
+   - Cloudflare 대시보드 > My Profile > API Tokens
+   - "Create Token" > "Edit Cloudflare Workers" 템플릿 사용 또는 커스텀 토큰 생성
+   - Account > Cloudflare Pages: Edit 권한 필요
+
+4. **배포 확인**
+   - main 브랜치에 푸시하면 자동으로 Cloudflare Pages에 배포됩니다
+   - 배포 URL: `https://meme-generator.pages.dev` (프로젝트명에 따라 다름)
+
 ## 주의사항
 
 - ImgFlip 계정 정보는 브라우저에 저장되지 않습니다
