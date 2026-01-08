@@ -24,6 +24,10 @@
 
   "forwardPorts": [3000],
 
+  "mounts": [
+    "type=bind,source=${localEnv:HOME}/.ssh,target=/home/node/.ssh,consistency=cached,readonly"
+  ],
+
   "postCreateCommand": "npm install",
 
   "remoteUser": "node"

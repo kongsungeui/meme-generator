@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install:*)",
+      "Bash(npx tailwindcss:*)",
+      "Bash(npm run dev:*)",
+      "Bash(git config:*)",
+      "Bash(ssh:*)"
+    ]
+  }
+}
