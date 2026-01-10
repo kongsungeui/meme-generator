@@ -24,9 +24,7 @@ export default function MemeEditor({
   onBack,
   onMemeGenerated,
 }: MemeEditorProps) {
-  const [texts, setTexts] = useState<string[]>(
-    Array(meme.box_count).fill("")
-  );
+  const [texts, setTexts] = useState<string[]>(Array(meme.box_count).fill(""));
   const [generating, setGenerating] = useState(false);
   const [generatingSuggestions, setGeneratingSuggestions] = useState(false);
 
@@ -74,13 +72,16 @@ export default function MemeEditor({
       console.error("Missing credentials:", {
         hasUsername: !!username,
         hasPassword: !!password,
-        env: process.env.NEXT_PUBLIC_IMGFLIP_USERNAME
+        env: process.env.NEXT_PUBLIC_IMGFLIP_USERNAME,
+        envObj: process.env,
       });
-      alert("ImgFlip 계정 정보가 설정되지 않았습니다.\n\nCloudflare Pages의 경우:\n1. Dashboard > Settings > Environment variables\n2. NEXT_PUBLIC_IMGFLIP_USERNAME 추가\n3. NEXT_PUBLIC_IMGFLIP_PASSWORD 추가\n4. 재배포 필요");
+      alert(
+        "ImgFlip 계정 정보가 설정되지 않았습니다.\n\nCloudflare Pages의 경우:\n1. Dashboard > Settings > Environment variables\n2. NEXT_PUBLIC_IMGFLIP_USERNAME 추가\n3. NEXT_PUBLIC_IMGFLIP_PASSWORD 추가\n4. 재배포 필요"
+      );
       return;
     }
 
-    if (texts.every(text => !text)) {
+    if (texts.every((text) => !text)) {
       alert("최소 하나의 텍스트를 입력해주세요.");
       return;
     }
@@ -145,15 +146,37 @@ export default function MemeEditor({
               {generatingSuggestions ? (
                 <>
                   <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
                   </svg>
                   Generating...
                 </>
               ) : (
                 <>
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  <svg
+                    className="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                    />
                   </svg>
                   I&apos;m Feeling Lucky
                 </>
@@ -165,21 +188,51 @@ export default function MemeEditor({
 
         {texts.map((text, index) => {
           const colors = [
-            { bg: 'from-purple-50 to-pink-50', border: 'border-purple-100', badge: 'bg-purple-500', focus: 'focus:border-purple-500 focus:ring-purple-100' },
-            { bg: 'from-blue-50 to-cyan-50', border: 'border-blue-100', badge: 'bg-blue-500', focus: 'focus:border-blue-500 focus:ring-blue-100' },
-            { bg: 'from-green-50 to-emerald-50', border: 'border-green-100', badge: 'bg-green-500', focus: 'focus:border-green-500 focus:ring-green-100' },
-            { bg: 'from-orange-50 to-amber-50', border: 'border-orange-100', badge: 'bg-orange-500', focus: 'focus:border-orange-500 focus:ring-orange-100' },
-            { bg: 'from-red-50 to-rose-50', border: 'border-red-100', badge: 'bg-red-500', focus: 'focus:border-red-500 focus:ring-red-100' },
+            {
+              bg: "from-purple-50 to-pink-50",
+              border: "border-purple-100",
+              badge: "bg-purple-500",
+              focus: "focus:border-purple-500 focus:ring-purple-100",
+            },
+            {
+              bg: "from-blue-50 to-cyan-50",
+              border: "border-blue-100",
+              badge: "bg-blue-500",
+              focus: "focus:border-blue-500 focus:ring-blue-100",
+            },
+            {
+              bg: "from-green-50 to-emerald-50",
+              border: "border-green-100",
+              badge: "bg-green-500",
+              focus: "focus:border-green-500 focus:ring-green-100",
+            },
+            {
+              bg: "from-orange-50 to-amber-50",
+              border: "border-orange-100",
+              badge: "bg-orange-500",
+              focus: "focus:border-orange-500 focus:ring-orange-100",
+            },
+            {
+              bg: "from-red-50 to-rose-50",
+              border: "border-red-100",
+              badge: "bg-red-500",
+              focus: "focus:border-red-500 focus:ring-red-100",
+            },
           ];
           const color = colors[index % colors.length];
 
           return (
-            <div key={index} className={`bg-linear-to-br ${color.bg} rounded-2xl p-6 border-2 ${color.border}`}>
+            <div
+              key={index}
+              className={`bg-linear-to-br ${color.bg} rounded-2xl p-6 border-2 ${color.border}`}
+            >
               <label
                 htmlFor={`text${index}`}
                 className="flex items-center gap-2 mb-3 text-gray-800 font-bold text-lg"
               >
-                <span className={`${color.badge} text-white w-8 h-8 rounded-full flex items-center justify-center text-sm`}>
+                <span
+                  className={`${color.badge} text-white w-8 h-8 rounded-full flex items-center justify-center text-sm`}
+                >
                   {index + 1}
                 </span>
                 Text {index + 1}
@@ -206,8 +259,20 @@ export default function MemeEditor({
               {generating ? (
                 <span className="flex items-center justify-center gap-2">
                   <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    />
                   </svg>
                   Creating...
                 </span>
