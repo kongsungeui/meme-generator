@@ -24,11 +24,18 @@ export default function MemeEditor({
   onBack,
   onMemeGenerated,
 }: MemeEditorProps) {
-  const [text0, setText0] = useState("");
-  const [text1, setText1] = useState("");
+  const [texts, setTexts] = useState<string[]>(
+    Array(meme.box_count).fill("")
+  );
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [generating, setGenerating] = useState(false);
+
+  const updateText = (index: number, value: string) => {
+    const newTexts = [...texts];
+    newTexts[index] = value;
+    setTexts(newTexts);
+  };
 
   const handleGenerate = async () => {
     if (!username || !password) {
@@ -36,7 +43,7 @@ export default function MemeEditor({
       return;
     }
 
-    if (!text0 && !text1) {
+    if (texts.every(text => !text)) {
       alert("최소 하나의 텍스트를 입력해주세요.");
       return;
     }
@@ -48,8 +55,9 @@ export default function MemeEditor({
       formData.append("template_id", meme.id);
       formData.append("username", username);
       formData.append("password", password);
-      formData.append("text0", text0);
-      formData.append("text1", text1);
+      texts.forEach((text, index) => {
+        formData.append(`boxes[${index}][text]`, text);
+      });
 
       const response = await fetch(CAPTION_IMAGE_URL, {
         method: "POST",
@@ -90,41 +98,38 @@ export default function MemeEditor({
       </div>
 
       <div className="max-w-2xl mx-auto space-y-6">
-        <div className="bg-linear-to-br from-purple-50 to-pink-50 rounded-2xl p-6 border-2 border-purple-100">
-          <label
-            htmlFor="text0"
-            className="flex items-center gap-2 mb-3 text-gray-800 font-bold text-lg"
-          >
-            <span className="bg-purple-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
-            Top Text
-          </label>
-          <input
-            type="text"
-            id="text0"
-            value={text0}
-            onChange={(e) => setText0(e.target.value)}
-            placeholder="Enter top text..."
-            className="w-full px-5 py-4 border-2 border-purple-200 rounded-xl text-lg bg-white transition-all focus:outline-none focus:border-purple-500 focus:ring-4 focus:ring-purple-100"
-          />
-        </div>
+        {texts.map((text, index) => {
+          const colors = [
+            { bg: 'from-purple-50 to-pink-50', border: 'border-purple-100', badge: 'bg-purple-500', focus: 'focus:border-purple-500 focus:ring-purple-100' },
+            { bg: 'from-blue-50 to-cyan-50', border: 'border-blue-100', badge: 'bg-blue-500', focus: 'focus:border-blue-500 focus:ring-blue-100' },
+            { bg: 'from-green-50 to-emerald-50', border: 'border-green-100', badge: 'bg-green-500', focus: 'focus:border-green-500 focus:ring-green-100' },
+            { bg: 'from-orange-50 to-amber-50', border: 'border-orange-100', badge: 'bg-orange-500', focus: 'focus:border-orange-500 focus:ring-orange-100' },
+            { bg: 'from-red-50 to-rose-50', border: 'border-red-100', badge: 'bg-red-500', focus: 'focus:border-red-500 focus:ring-red-100' },
+          ];
+          const color = colors[index % colors.length];
 
-        <div className="bg-linear-to-br from-blue-50 to-cyan-50 rounded-2xl p-6 border-2 border-blue-100">
-          <label
-            htmlFor="text1"
-            className="flex items-center gap-2 mb-3 text-gray-800 font-bold text-lg"
-          >
-            <span className="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
-            Bottom Text
-          </label>
-          <input
-            type="text"
-            id="text1"
-            value={text1}
-            onChange={(e) => setText1(e.target.value)}
-            placeholder="Enter bottom text..."
-            className="w-full px-5 py-4 border-2 border-blue-200 rounded-xl text-lg bg-white transition-all focus:outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
-          />
-        </div>
+          return (
+            <div key={index} className={`bg-linear-to-br ${color.bg} rounded-2xl p-6 border-2 ${color.border}`}>
+              <label
+                htmlFor={`text${index}`}
+                className="flex items-center gap-2 mb-3 text-gray-800 font-bold text-lg"
+              >
+                <span className={`${color.badge} text-white w-8 h-8 rounded-full flex items-center justify-center text-sm`}>
+                  {index + 1}
+                </span>
+                Text {index + 1}
+              </label>
+              <input
+                type="text"
+                id={`text${index}`}
+                value={text}
+                onChange={(e) => updateText(index, e.target.value)}
+                placeholder={`Enter text ${index + 1}...`}
+                className={`w-full px-5 py-4 border-2 ${color.border} rounded-xl text-lg bg-white transition-all focus:outline-none ${color.focus} focus:ring-4`}
+              />
+            </div>
+          );
+        })}
 
         <div className="bg-linear-to-br from-gray-50 to-slate-50 rounded-2xl p-6 border-2 border-gray-200">
           <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
