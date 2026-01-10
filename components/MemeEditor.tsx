@@ -71,7 +71,12 @@ export default function MemeEditor({
     const password = process.env.NEXT_PUBLIC_IMGFLIP_PASSWORD;
 
     if (!username || !password) {
-      alert("ImgFlip 계정 정보가 설정되지 않았습니다. .env.local 파일을 확인해주세요.");
+      console.error("Missing credentials:", {
+        hasUsername: !!username,
+        hasPassword: !!password,
+        env: process.env.NEXT_PUBLIC_IMGFLIP_USERNAME
+      });
+      alert("ImgFlip 계정 정보가 설정되지 않았습니다.\n\nCloudflare Pages의 경우:\n1. Dashboard > Settings > Environment variables\n2. NEXT_PUBLIC_IMGFLIP_USERNAME 추가\n3. NEXT_PUBLIC_IMGFLIP_PASSWORD 추가\n4. 재배포 필요");
       return;
     }
 
