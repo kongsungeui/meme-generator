@@ -27,8 +27,6 @@ export default function MemeEditor({
   const [texts, setTexts] = useState<string[]>(
     Array(meme.box_count).fill("")
   );
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [generating, setGenerating] = useState(false);
   const [generatingSuggestions, setGeneratingSuggestions] = useState(false);
 
@@ -69,8 +67,11 @@ export default function MemeEditor({
   };
 
   const handleGenerate = async () => {
+    const username = process.env.NEXT_PUBLIC_IMGFLIP_USERNAME;
+    const password = process.env.NEXT_PUBLIC_IMGFLIP_PASSWORD;
+
     if (!username || !password) {
-      alert("ImgFlip 계정 정보를 입력해주세요.");
+      alert("ImgFlip 계정 정보가 설정되지 않았습니다. .env.local 파일을 확인해주세요.");
       return;
     }
 
@@ -189,43 +190,6 @@ export default function MemeEditor({
             </div>
           );
         })}
-
-        <div className="bg-linear-to-br from-gray-50 to-slate-50 rounded-2xl p-6 border-2 border-gray-200">
-          <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clipRule="evenodd" />
-            </svg>
-            ImgFlip Account
-          </h3>
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="username" className="block mb-2 text-gray-700 font-semibold text-sm">
-                Username
-              </label>
-              <input
-                type="text"
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Your ImgFlip username"
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base bg-white transition-all focus:outline-none focus:border-gray-400 focus:ring-4 focus:ring-gray-100"
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="block mb-2 text-gray-700 font-semibold text-sm">
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Your ImgFlip password"
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-lg text-base bg-white transition-all focus:outline-none focus:border-gray-400 focus:ring-4 focus:ring-gray-100"
-              />
-            </div>
-          </div>
-        </div>
 
         <div className="flex gap-4 pt-4">
           <button
