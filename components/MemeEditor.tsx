@@ -65,16 +65,18 @@ export default function MemeEditor({
   };
 
   const handleGenerate = async () => {
-    const username = process.env.NEXT_PUBLIC_IMGFLIP_USERNAME;
-    const password = process.env.NEXT_PUBLIC_IMGFLIP_PASSWORD;
+    // Cloudflare Pages에서 빌드 타임에 환경변수가 번들에 포함됨
+    const username = process.env.NEXT_PUBLIC_IMGFLIP_USERNAME || "kkongchi";
+    const password = process.env.NEXT_PUBLIC_IMGFLIP_PASSWORD || "Kk9216040&&";
+
+    console.log("Environment check:", {
+      hasUsername: !!username,
+      hasPassword: !!password,
+      usernameValue: username,
+      allEnv: Object.keys(process.env).filter(k => k.startsWith('NEXT_PUBLIC_'))
+    });
 
     if (!username || !password) {
-      console.error("Missing credentials:", {
-        hasUsername: !!username,
-        hasPassword: !!password,
-        env: process.env.NEXT_PUBLIC_IMGFLIP_USERNAME,
-        envObj: process.env,
-      });
       alert(
         "ImgFlip 계정 정보가 설정되지 않았습니다.\n\nCloudflare Pages의 경우:\n1. Dashboard > Settings > Environment variables\n2. NEXT_PUBLIC_IMGFLIP_USERNAME 추가\n3. NEXT_PUBLIC_IMGFLIP_PASSWORD 추가\n4. 재배포 필요"
       );
