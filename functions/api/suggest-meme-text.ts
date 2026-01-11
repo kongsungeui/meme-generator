@@ -4,7 +4,7 @@ interface Env {
   ANTHROPIC_API_KEY: string;
 }
 
-export const onRequestPost: PagesFunction<Env> = async (context) => {
+export async function onRequestPost(context: any) {
   try {
     const { memeName, textBoxCount } = await context.request.json();
 
