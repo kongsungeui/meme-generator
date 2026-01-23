@@ -27,17 +27,35 @@ export async function onRequestPost(context: any) {
       apiKey,
     });
 
+    // Randomly select a topic for variety
+    const topics = [
+      {
+        name: "Programming",
+        description: "programmer humor, software development jokes, coding situations, tech culture, debugging, refactoring"
+      },
+      {
+        name: "AI & LLMs",
+        description: "AI humor, ChatGPT, Claude, Copilot, Gemini, prompt engineering, hallucinations, token limits, AI assistants"
+      },
+      {
+        name: "Gaming",
+        description: "gaming humor, video games, gamers, game development, esports, game bugs, rage quit, gaming culture"
+      }
+    ];
+
+    const selectedTopic = topics[Math.floor(Math.random() * topics.length)];
+
     const message = await anthropic.messages.create({
       model: "claude-sonnet-4-20250514",
       max_tokens: 1024,
       messages: [
         {
           role: "user",
-          content: `You are a programmer humor meme expert. Generate funny programming-related text for the "${memeName}" meme template.
+          content: `You are a meme expert. Generate funny ${selectedTopic.name}-related text for the "${memeName}" meme template.
 
 Rules:
 - This meme has ${textBoxCount} text boxes
-- Focus on programmer humor, software development jokes, coding situations, tech culture
+- Focus on ${selectedTopic.description}
 - Keep each text short and punchy (max 10-12 words per text)
 - Make it relevant to the "${memeName}" meme format
 - Be creative and funny!
