@@ -88,6 +88,11 @@ Respond with ONLY a JSON array of ${textBoxCount} strings, nothing else. Example
       [suggestions[0], suggestions[2]] = [suggestions[2], suggestions[0]];
     }
 
+    // Special handling for Buff Doge vs Cheems meme - swap text 2 and 3
+    if (memeName.toLowerCase().includes("buff doge") && suggestions.length >= 3) {
+      [suggestions[1], suggestions[2]] = [suggestions[2], suggestions[1]];
+    }
+
     return new Response(JSON.stringify({ suggestions }), {
       headers: { "Content-Type": "application/json" },
     });
